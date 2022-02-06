@@ -1,0 +1,49 @@
+<div class="container">
+    <ng-container *ngIf="!isLoading; else loadingBlock">
+        <ng-container *ngIf="!notFound; else notFoundBlock">
+            <div class="title">
+                <h1>{{ editMode ? 'Edycja' : 'Dodawanie'}} gatunku filmowego</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field hintLabel="Max 20 znaków" appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Nazwa gatunku</mat-label>
+                        <input matInput #input maxlength="20" type="text" [formControl]="genreName"/>
+                        <mat-hint align="end">{{genreName.value?.length || 0}}/20</mat-hint>
+                        <mat-error *ngIf="genreName.invalid || genreExistError">{{ getNameErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field hintLabel="Max 100 znaków" appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Opis gatunku</mat-label>
+                        <input matInput #input maxlength="100" type="text" [formControl]="genreDescription"/>
+                        <mat-hint align="end">{{genreDescription.value?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="genreDescription.invalid">{{ getDescriptionErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 clearfix">
+                    <div class="float-right">
+                        <button mat-raised-button color="accent" (click)="onSubmit()">Zatwierdź</button>
+                      </div>
+                      <div class="float-right mr-3">
+                        <button mat-raised-button (click)="onReturn()">Powrót</button>
+                      </div>
+                  </div>
+              </div>
+        </ng-container>
+    </ng-container>
+</div>
+
+<ng-template #notFoundBlock>
+    <div class="center-text">
+        <h1>Nie znaleziono gatunku</h1>
+    </div>
+</ng-template>
+<ng-template #loadingBlock>
+    <div class="mat-spinner">
+        <mat-spinner color="accent">
+        </mat-spinner>
+    </div>
+</ng-template>

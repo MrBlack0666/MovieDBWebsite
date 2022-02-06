@@ -1,0 +1,36 @@
+<div>
+    <mat-card>
+        <mat-card-title class="review-card-title">
+            Nowa recenzja
+        </mat-card-title>
+        <mat-card-content>
+            <div class="row">
+                <star-rating class="review-card-star-rating m-auto"
+                [labelText]="reviewScore"
+                labelPosition="top"
+                starType="icon"
+                staticColor="ok"
+                size="large"
+                speed="immediately"
+                numOfStars="10"
+                hoverEnabled="true"
+                [rating]="rating"
+                (hoverRatingChange)="onHoverRatingChange($event)"
+                (starClickChange)="onRatingChange($event)">
+                </star-rating>
+            </div>
+            <div class="row">
+                <mat-form-field hintLabel="Max 500 znaków" appearance="fill" class="mat-form-field-custom">
+                    <mat-label>Treść recenzji</mat-label>
+                    <textarea matInput #input maxlength="500" type="text" [formControl]="reviewBody"></textarea>
+                    <mat-hint align="end">{{reviewBody.value?.length || 0}}/500</mat-hint>
+                    <mat-error *ngIf="reviewBody.invalid"></mat-error>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-raised-button color="accent" (click)="onReviewSubmit($event)">Opublikuj</button>
+            <button mat-raised-button color="warn" (click)="onCancelReview($event)">Anuluj</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

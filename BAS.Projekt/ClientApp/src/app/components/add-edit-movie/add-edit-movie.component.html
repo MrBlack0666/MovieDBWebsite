@@ -1,0 +1,160 @@
+<div class="container">
+    <ng-container *ngIf="!isLoading; else loadingBlock">
+        <ng-container *ngIf="!notFound; else notFoundBlock">
+            <div class="title">
+                <h1> {{ editMode ? 'Edycja' : "Dodawanie"}} filmu</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-6 float-left">
+                    <mat-form-field hintLabel="Max 100 znaków" appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Tytuł filmu</mat-label>
+                        <input matInput #input maxlength="100" type="text" [formControl]="movieTitle"/>
+                        <mat-hint align="end">{{movieTitle.value?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="movieTitle.invalid || titleExistError">{{ getTitleErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field hintLabel="Max 2000 znaków" appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Opis</mat-label>
+                        <textarea matInput #input maxlength="2000" type="text" [formControl]="movieDescription"></textarea>
+                        <mat-hint align="end">{{movieDescription.value?.length || 0}}/2000</mat-hint>
+                        <mat-error *ngIf="movieDescription.invalid">{{ getDescriptionErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field hintLabel="Przedział lat: 1900-2300" appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Rok premiery</mat-label>
+                        <input matInput #input type="number" [formControl]="movieReleaseYear"/>
+                        <mat-error *ngIf="movieReleaseYear.invalid">{{ getReleaseYearErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field hintLabel="Przedział czasu trwania: 1-1000000 minut" appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Czas trwania (w minutach)</mat-label>
+                        <input matInput #input type="number" [formControl]="movieLengthInMinutes"/>
+                        <mat-error *ngIf="movieLengthInMinutes.invalid">{{ getTimeInMinutesErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Gatunki</mat-label>
+                        <mat-select [formControl]="selectedGenres" multiple>
+                          <mat-option *ngFor="let genre of genreList" [value]="genre.id">{{ genre.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Aktorzy</mat-label>
+                        <mat-chip-list #chipList aria-label="Wybieranie aktorów">
+                          <mat-chip
+                            *ngFor="let actor of selectedActors"
+                            selectable="true"
+                            removable="true"
+                            (removed)="removeActor(actor)">
+                            {{ actor.name + ' ' + actor.surname }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="Nowy aktor"
+                            #actorInput
+                            [formControl]="actorInputInDropdown"
+                            [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="addActor($event)"
+                            (input)="onActorInputChange($event.target.value)"
+                            >
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedActor($event)">
+                          <mat-option *ngFor="let actor of actorsInDropdown" [value]="actor">
+                            {{ actor.name + ' ' + actor.surname }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+
+
+                      <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Reżyserzy</mat-label>
+                        <mat-chip-list #chipListDirector aria-label="Wybieranie reżyserów">
+                          <mat-chip
+                            *ngFor="let director of selectedDirectors"
+                            selectable="true"
+                            removable="true"
+                            (removed)="removeDirector(director)">
+                            {{ director.name + ' ' + director.surname }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="Nowy reżyser"
+                            #directorInput
+                            [formControl]="directorInputInDropdown"
+                            [matAutocomplete]="autoDirector"
+                            [matChipInputFor]="chipListDirector"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="addDirector($event)"
+                            (input)="onDirectorInputChange($event.target.value)"
+                            >
+                        </mat-chip-list>
+                        <mat-autocomplete #autoDirector="matAutocomplete" (optionSelected)="selectedDirector($event)">
+                          <mat-option *ngFor="let director of directorsInDropdown" [value]="director">
+                            {{ director.name + ' ' + director.surname }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+
+
+                      <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Scenarzyści</mat-label>
+                        <mat-chip-list #chipListWriter aria-label="Wybieranie scenarzystów">
+                          <mat-chip
+                            *ngFor="let writer of selectedWriters"
+                            selectable="true"
+                            removable="true"
+                            (removed)="removeWriter(writer)">
+                            {{ writer.name + ' ' + writer.surname }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="Nowy scenarzysta"
+                            #writerInput
+                            [formControl]="writerInputInDropdown"
+                            [matAutocomplete]="autoWriter"
+                            [matChipInputFor]="chipListWriter"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="addWriter($event)"
+                            (input)="onWriterInputChange($event.target.value)"
+                            >
+                        </mat-chip-list>
+                        <mat-autocomplete #autoWriter="matAutocomplete" (optionSelected)="selectedWriter($event)">
+                          <mat-option *ngFor="let writer of writersInDropdown" [value]="writer">
+                            {{ writer.name + ' ' + writer.surname }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                </div>
+
+                <div class="clearfix col-md-6 image-preview">
+                  <mat-card class="movie-card-margins">
+                    <img mat-card-image [src]="file == null ? '/assets/images/placeholder.png' : file">
+                    <mat-card-footer>
+                      <input type="file" (change)="uploadMoviePoster($event)"/>
+                    </mat-card-footer>
+                  </mat-card>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 clearfix">
+                <div class="float-right">
+                    <button mat-raised-button color="accent" (click)="onSubmit()">Zatwierdź</button>
+                  </div>
+                  <div class="float-right mr-3">
+                    <button mat-raised-button (click)="onReturn()">Powrót</button>
+                  </div>
+              </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>
+<ng-template #notFoundBlock>
+    <div class="center-text">
+        <h1>Nie znaleziono filmu</h1>
+    </div>
+</ng-template>
+<ng-template #loadingBlock>
+    <div class="mat-spinner">
+        <mat-spinner color="accent">
+        </mat-spinner>
+    </div>
+</ng-template>

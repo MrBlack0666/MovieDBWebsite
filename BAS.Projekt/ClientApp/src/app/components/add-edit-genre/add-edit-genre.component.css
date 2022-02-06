@@ -1,0 +1,22 @@
+.title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.mat-form-field-custom {
+    width: 100%;
+    margin: 10px 0
+}
+
+.mat-spinner {
+    margin: auto;
+}
+
+.image-preview {
+    margin-top: 10px;
+}
+
+.movie-card-margins {
+    max-width: 450px;
+    max-height: 655px;
+}

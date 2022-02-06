@@ -1,0 +1,16 @@
+.review-card {
+    width: 100%;
+}
+
+.mat-form-field-custom {
+    width: 100%;
+    margin: 10px 16px;
+}
+
+.review-card-title {
+    margin-bottom: 40px;
+}
+
+.review-card-star-rating {
+    padding: 16px;
+}

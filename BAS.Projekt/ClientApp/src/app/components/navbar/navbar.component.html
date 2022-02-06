@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+    <a routerLink="" class="navbar-brand">FILMŁEB</a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navbarCollapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav" *ngIf="isAdmin()">
+            <li class="nav-item">
+                <a routerLink="admin/movie" class="nav-link">Panel administracyjny</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav ml-auto">
+            <ng-container *ngIf="!currentUser; else profileBlock">
+                <li class="nav-item">
+                    <a routerLink="signin" class="nav-link">Zaloguj się</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="signup" class="nav-link">Zarejestruj się</a>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+</nav>
+
+<ng-template #profileBlock>
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Profil</a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a href="#" class="dropdown-item">Zmiana hasła</a>
+            <div class="dropdown-divider"></div>
+            <a href="#"class="dropdown-item" (click)="logout()">Wyloguj</a>
+        </div>
+    </li>
+</ng-template>

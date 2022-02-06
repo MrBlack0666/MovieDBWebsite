@@ -1,0 +1,95 @@
+<div class="container" (window:scroll)="onWindowScroll($event)">
+
+    <div class="row" *ngIf="currentUser != null; else gownoBlock">
+        <recommendations class="w-100"></recommendations>
+    </div>
+
+    <h2>
+        Baza filmów
+    </h2>
+
+    <div class="row">
+        <movie-filter (applyEvent)="onApplyFilters($event)"></movie-filter>
+    </div>
+
+    <div class="row" *ngIf="!isLoading; else loadingBlock">
+        <div *ngFor="let movie of movies.movieList" class="col-lg-4 col-sm-6">
+            <a class="movie-card-click text-decoration-none" routerLink="movie/{{movie.id}}">
+                <mat-card class="movie-card-margins">
+                    <img mat-card-image [src]="movie.poster == null ? '/assets/images/noMovieImage.png' : getMoviePoster(movie.poster)">
+                    <mat-card-content>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h2>{{movie.title}}</h2>
+                                </div>
+                                <div class="d-flex justify-content-start rating-container">
+                                    <mat-icon class="golden-star">star</mat-icon>
+                                    <div class="rating-text">
+                                        <span class="">{{ getStringRating(movie.averageRating) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                {{movie.releaseYear}}
+                            </div>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-footer>
+                        <mat-chip-list class="mat-chip-list">
+                            <mat-chip *ngFor="let genre of movie.genres" class="mat-chip" color="primary" selected>
+                                {{genre}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </mat-card-footer>
+                </mat-card>
+            </a>
+        </div>
+        
+        <!-- 
+        <div *ngFor="let movie of movies.movieList" class="col-md-4">
+            <div>
+                <img [src]="getMoviePoster(movie.poster)" height="300px" width="200px"/>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h2>{{movie.title}}</h2>
+                    </div>
+                    <div>
+                        <mat-icon class="golden-star">star</mat-icon>
+                        <span class="align-middle">{{movie.averageRating}}</span>
+                    </div>
+                </div>
+                <div>
+                    {{movie.releaseYear}}
+                </div>
+            </div>
+            <mat-chip-list>
+                <mat-chip *ngFor="let genre of movie.genres" color="primary" selected>
+                    {{genre}}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+        -->
+    </div>
+
+    <div style="height: 200px;">
+        <ng-container *ngIf="isLoadingMoviePage; then loadingBlock">
+
+        </ng-container>
+    </div>
+</div>
+
+<ng-template #loadingBlock>
+    <div class="mat-spinner">
+        <mat-spinner color="accent">
+        </mat-spinner>
+    </div>
+</ng-template>
+
+<ng-template #gownoBlock>
+    <div style="margin-top: 75px;">
+
+    </div>
+</ng-template>

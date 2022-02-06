@@ -1,0 +1,16 @@
+.filters {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.input-padding-right-25 {
+    padding-right: 25px!important;
+}
+
+table {
+    width: 100%;
+}
+
+.green-background {
+    background-color: limegreen;
+}

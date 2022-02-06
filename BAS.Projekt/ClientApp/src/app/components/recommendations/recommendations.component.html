@@ -1,0 +1,25 @@
+<div class="col-md-12 recommendation-container">
+
+    <h2>Polecane</h2>
+
+    <div class="row justify-content-center">
+        <ng-container *ngIf="!isLoading">
+            <ng-container *ngIf="!apiError; else errorBlock">
+                <ng-container *ngFor="let movie of movieList.slice(0,5);">
+                        <div class="w-20">
+                            <a class="text-decoration" routerLink="movie/{{movie.id}}">
+                                <img [src]="getMoviePoster(movie.poster)" class="w-100">
+                                <p class="text-center mt-2 h5">
+                                    {{movie.title}}
+                                </p>
+                            </a>
+                        </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>
+
+<ng-template #errorBlock>
+    <div>Nie udało się połączyć z rekomendacjami</div>    
+</ng-template>

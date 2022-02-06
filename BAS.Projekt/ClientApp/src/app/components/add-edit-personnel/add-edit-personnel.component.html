@@ -1,0 +1,59 @@
+<div class="container">
+    <ng-container *ngIf="!isLoading; else loadingBlock">
+        <ng-container *ngIf="!notFound; else notFoundBlock">
+            <div class="title">
+                <h1> {{ editMode ? 'Edycja' : "Dodawanie"}} osoby</h1>
+            </div>
+            <div class="row">
+                <mat-form-field hintLabel="Max 100 znaków" appearance="fill" class='mat-form-field-custom col-md-6'>
+                    <mat-label>Imie</mat-label>
+                    <input matInput #input maxlength="100" type="text" [formControl]="personnelName"/>
+                    <mat-hint align="end">{{personnelName.value?.length || 0}}/100</mat-hint>
+                    <mat-error *ngIf="personnelName.invalid">{{ getNameErrorMessage() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field hintLabel="Max 100 znaków" appearance="fill" class='mat-form-field-custom col-md-6'>
+                    <mat-label>Nazwisko</mat-label>
+                    <input matInput #input maxlength="100" type="text" [formControl]="personnelSurname"/>
+                    <mat-hint align="end">{{personnelSurname.value?.length || 0}}/100</mat-hint>
+                    <mat-error *ngIf="personnelSurname.invalid">{{ getSurnameErrorMessage() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field hintLabel="Max 100 znaków" appearance="fill" class='mat-form-field-custom col-md-6'>
+                    <mat-label>Narodowość</mat-label>
+                    <input matInput #input maxlength="100" type="text" [formControl]="personnelNationality"/>
+                    <mat-hint align="end">{{personnelNationality.value?.length || 0}}/100</mat-hint>
+                    <mat-error *ngIf="personnelNationality.invalid">{{ getNationalityErrorMessage() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="mat-form-field-custom col-md-6" appearance="fill">
+                    <mat-label>Data urodzenia</mat-label>
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [formControl]="personnelDateOfBirth">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="personnelDateOfBirth.hasError('required')">
+                        Data urodzenia nie może być pusta
+                     </mat-error> 
+                  </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="col-md-12 clearfix">
+                <div class="float-right">
+                    <button mat-raised-button color="accent" (click)="onSubmit()">Zatwierdź</button>
+                  </div>
+                  <div class="float-right mr-3">
+                    <button mat-raised-button (click)="onReturn()">Powrót</button>
+                  </div>
+              </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>
+<ng-template #notFoundBlock>
+    <div class="center-text">
+        <h1>Nie znaleziono filmu</h1>
+    </div>
+</ng-template>
+<ng-template #loadingBlock>
+    <div class="mat-spinner">
+        <mat-spinner color="accent">
+        </mat-spinner>
+    </div>
+</ng-template>

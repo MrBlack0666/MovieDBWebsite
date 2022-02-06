@@ -1,0 +1,73 @@
+<div class="col-md-12 filters">
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Filtry
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <div class="row no-gutters">
+            <mat-form-field class="col-md-4 input-padding-right-25">
+                <mat-label>Tytuł filmu</mat-label>
+                <input matInput type="text" [(ngModel)]="movieFilters.title" />
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Gatunek</mat-label>
+                <mat-select [(ngModel)]="movieFilters.genreId">
+                    <mat-option value="">Wszystkie</mat-option>
+                    <mat-option *ngFor="let genre of genresList" value="{{genre.id}}">{{genre.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="w-100"></div>
+
+            <mat-form-field class="col-md-2 input-padding-right-25">
+                <mat-label>Premiera od</mat-label>
+                <input matInput type="number" min="1950" max="2100" [(ngModel)]="movieFilters.releaseYearFrom"/>
+            </mat-form-field>
+            <mat-form-field class="col-md-2 input-padding-right-25">
+                <mat-label>Premiera do</mat-label>
+                <input matInput type="number" min="1950" max="2100" [(ngModel)]="movieFilters.releaseYearTo"/>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-2 input-padding-right-25">
+                <mat-label>Długość filmu od</mat-label>
+                <input matInput type="number" min="0" [(ngModel)]="movieFilters.movieLengthFrom"/>
+            </mat-form-field>
+            <mat-form-field class="col-md-2 input-padding-right-25">
+                <mat-label>Długość filmu do</mat-label>
+                <input matInput type="number" min="0" [(ngModel)]="movieFilters.movieLengthTo"/>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-2 input-padding-right-25">
+                <mat-label>Średnia ocena od</mat-label>
+                <input matInput type="number" min="0" max="10" [(ngModel)]="movieFilters.avgRatingFrom"/>
+            </mat-form-field>
+            <mat-form-field class="col-md-2 input-padding-right-25">
+                <mat-label>Średnia ocena do</mat-label>
+                <input matInput type="number" min="0" max="10" [(ngModel)]="movieFilters.avgRatingTo"/>
+            </mat-form-field>
+
+            <div class="w-100"></div>
+
+            <mat-form-field class="col-md-4 input-padding-right-25">
+                <mat-label>Posortuj po</mat-label>
+                <mat-select [(ngModel)]="movieFilters.orderBy">
+                    <mat-option value="titleAsc">Tytuł (A-Z)</mat-option>
+                    <mat-option value="titleDesc">Tytuł (Z-A)</mat-option>
+                    <mat-option value="releaseYearAsc">Rok premiery (Rosnąco)</mat-option>
+                    <mat-option value="releaseYearDesc">Rok premiery (Malejąco)</mat-option>
+                    <mat-option value="movieLengthAsc">Długość filmu (Rosnąco)</mat-option>
+                    <mat-option value="movieLengthDesc">Długość filmu (Malejąco)</mat-option>
+                    <mat-option value="averageRatingAsc">Średnia ocena (Rosnąco)</mat-option>
+                    <mat-option value="averageRatingDesc">Średnia ocena (Malejąco)</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <mat-action-row>
+            <button mat-raised-button color="accent" (click)="returnFilters($event)">Zatwierdź</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+</div>

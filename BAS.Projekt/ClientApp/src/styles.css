@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~css-star-rating/css/star-rating';
+
+html, body { height: calc(100% - 62px); }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.snackbar-success {
+    background-color: rgb(34, 177, 76)!important;
+    color: white!important;
+    margin-top: 65px!important;
+}
+
+.snackbar-success .mat-simple-snackbar-action {
+    color: rgb(0, 0, 255) !important;
+}
+
+.snackbar-error {
+    background-color: red!important;
+    color: white!important;
+    margin-top: 65px!important;
+}
+
+.snackbar-error .mat-simple-snackbar-action {
+    color: yellow !important;
+}

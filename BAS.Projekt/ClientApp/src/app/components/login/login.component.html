@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <div class="fadeIn first">
+                 <div class="custom-header">LOGOWANIE</div>
+            </div>
+            <div>
+                <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                    <mat-label>Email</mat-label>
+                    <input matInput #input maxlength="100" type="text" [formControl]="email" placeholder="kowalski@przyklad.pl"/>
+                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                    <mat-label>Hasło</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" maxlength="100">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+                <div *ngIf="errorMessage !== ''" class="error-message">
+                  {{ errorMessage }}
+                </div>
+                <div class="custom-button">
+                    <button mat-raised-button color="primary" (click)="onSubmit()">Zaloguj</button>
+                </div>
+            </div>
+            <div id="formFooter">
+                <a class="underlineHover" >Przypomnij hasło</a>
+            </div>
+        </div>
+      </div>
+</div>
+
+
+<!--<div class="container">
+    <div class="card">
+        <div class="custom-header">LOGOWANIE</div>
+        <div class="mat-inputs">
+            <mat-form-field hintLabel="Max 100 znaków" appearance="fill" class='mat-form-field-custom col-md-6'>
+                <mat-label>Imie</mat-label>
+                <input matInput #input maxlength="100" type="text" [formControl]="personnelName"/>
+                <mat-hint align="end">{{personnelName.value?.length || 0}}/100</mat-hint>
+                <mat-error *ngIf="personnelName.invalid">{{ getNameErrorMessage() }}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="confirm-button">
+
+        </div>
+    </div>
+</div>-->

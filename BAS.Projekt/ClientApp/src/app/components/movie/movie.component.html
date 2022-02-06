@@ -1,0 +1,133 @@
+<div class="container container-margins" *ngIf="!isLoading; else loadingBlock">
+    <div class="row">
+        <div class="col-md-5">
+            <img [src]="getMoviePoster(movie.moviePoster)" class="movie-poster w-100">
+        </div>
+        <div class="col-md-7">
+            <div class="clearfix">
+                <div class="float-left">
+                    <h1 class="">
+                        {{movie.title}} ({{movie.releaseYear}})
+                    </h1>
+                    <div class="text-muted">
+                        {{getMovieLengthInHours(movie.movieLengthInMinutes)}}
+                    </div>
+                </div>
+                <div class="float-right">
+                    <div class="d-flex justify-content-start rating-container">
+                        <mat-icon class="golden-star">star</mat-icon>
+                        <div class="rating-text">
+                            <span class="">{{ getStringRating(movie.averageRating) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                {{movie.description}}
+            </div>
+
+            <div class="mt-5">
+                <span class="font-weight-bold">Reżyseria:</span> {{ getDirectors() }}
+            </div>
+            <div class="mt-1">
+                <span class="font-weight-bold">Scenariusz:</span> {{ getWriters() }}
+            </div>
+            <div class="mt-5">
+                <mat-chip-list class="mat-chip-list">
+                    <mat-chip *ngFor="let genre of movie.genres" class="mat-chip" color="primary" selected>
+                        {{genre.name}}
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2>Obsada</h2>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row mt-3"> 
+        <ng-container *ngFor="let actor of actors">
+            <div class="w-100 actor-element">
+                {{actor.name}} {{actor.surname}}
+            </div>
+        </ng-container> 
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h2>Recenzje użytkowników</h2>
+        </div>
+        <div class="col-md-6">
+            <div class="float-right" *ngIf="userSignedIn && canUserReview">
+                <button mat-raised-button class="green-background" *ngIf="!displayReviewForm" (click)="showReviewForm($event)">Napisz recenzję</button> 
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="offset-lg-3 col-lg-6" *ngIf="displayReviewForm">
+        <movie-review [movieId]="movie.id" (reviewFormClose)="onReviewFormSubmit($event)"></movie-review>
+    </div>
+
+    <div class="row" *ngIf="!areReviewsLoading; else loadingBlock">
+        <div class="col-md-12">
+            <ng-container *ngFor="let review of reviews.reviewList">
+                <div class="w-100 user-review">
+                    <mat-card>
+                        <mat-card-title class="user-review-title clearfix">
+                            <div class="float-left">
+                                <div>
+                                    {{review.username}}
+                                </div>
+                                <div class="d-flex justify-content-start rating-container">
+                                    <mat-icon class="golden-star">star</mat-icon>
+                                    <div class="rating-text">
+                                        <span class="">{{ getStringRating(review.rating) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-container *ngIf="canDeleteReview(review.userId)">
+                                <div class="float-right">
+                                    <button mat-mini-fab color="warn" (click)="openDeleteDialog(review.userId, review.movieId)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            01.01.2021
+                        </mat-card-subtitle>
+                        <mat-card-content>
+                            {{review.message}}
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <ng-container *ngIf="canLoadReviews">
+                <button mat-raised-button color="primary" (click)="onLoadReviews()">Więcej recenzji</button>
+            </ng-container>
+        </div>
+    </div>
+
+    <div style="height: 200px;">
+        
+    </div>
+</div>
+
+<ng-template #loadingBlock>
+    <div class="mat-spinner container-margins">
+        <mat-spinner color="accent">
+        </mat-spinner>
+    </div>
+</ng-template>

@@ -1,0 +1,46 @@
+<div class="container">
+  <ng-container *ngIf="!isLoading">
+    <div *ngIf="!tabError; else errorBlock">
+      <mat-tab-group [selectedIndex]="currentTab" (selectedTabChange)="changeUrl($event)">
+        <mat-tab label="Filmy">
+          <ng-template matTabContent>
+              <ng-container>
+                <admin-movie></admin-movie>
+              </ng-container>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Gatunki">
+            <ng-template matTabContent>
+              <ng-container>
+                <admin-genre></admin-genre>
+              </ng-container>
+            </ng-template>
+          </mat-tab>
+        <mat-tab label="Personel">
+          <ng-template matTabContent>
+            <ng-container>
+              <admin-personnel></admin-personnel>
+            </ng-container>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Użytkownicy">
+            <ng-template matTabContent>
+              <ng-container>
+                <admin-user></admin-user>
+              </ng-container>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Recenzje">
+            <ng-template matTabContent>
+              <admin-review></admin-review>
+            </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </ng-container>
+</div>
+<ng-template #errorBlock>
+  <div>
+    ZŁY ADRES
+  </div>
+</ng-template>

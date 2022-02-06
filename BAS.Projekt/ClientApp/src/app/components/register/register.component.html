@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <div class="fadeIn first">
+                 <div class="custom-header">REJESTRACJA</div>
+            </div>
+            
+            <div>
+                <form [formGroup]=registerForm (ngSubmit)="onSubmit()">
+                    <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Email</mat-label>
+                        <input matInput #input maxlength="100" type="text" formControlName="email" placeholder="kowalski@przyklad.pl" required/>
+                        <mat-error *ngIf="registerForm.controls.email.errors">{{ getEmailErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Nazwa użytkownika</mat-label>
+                        <input matInput #input maxlength="50" type="text" formControlName="username"/>
+                        <mat-error *ngIf="registerForm.controls.username.errors">{{ getUsernameErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Hasło</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" minlength="5" maxlength="100" required>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="registerForm.controls.password.errors">{{ getPasswordErrorMessage() }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Potwierdź hasło</mat-label>
+                        <input matInput type="password" formControlName="confirmedPassword" [errorStateMatcher]="matcher" maxlength="100" required>
+                        <mat-error *ngIf="registerForm.hasError('notSame')">
+                            Hasła nie pasują do siebie
+                        </mat-error> 
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Imię</mat-label>
+                        <input matInput #input maxlength="100" type="text" formControlName="name" required/>
+                        <mat-error *ngIf="registerForm.controls.name.hasError('required')">Imię nie może być puste</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class='mat-form-field-custom'>
+                        <mat-label>Nazwisko</mat-label>
+                        <input matInput #input maxlength="100" type="text" formControlName="surname" required/>
+                        <mat-error *ngIf="registerForm.controls.name.hasError('required')">Nazwisko nie może być puste</mat-error>
+                    </mat-form-field>
+                    <div class="custom-button">
+                        <button mat-raised-button color="primary" type="submit" >Zarejestruj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+</div>

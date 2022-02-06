@@ -1,0 +1,74 @@
+<div class="col-md-12 filters">
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Filtry
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <div class="row no-gutters">
+            <mat-form-field class="col-md-4 input-padding-right-25">
+                <mat-label>Nazwa gatunku</mat-label>
+                <input matInput type="text" [(ngModel)]="genreFilter.name" />
+            </mat-form-field>
+
+            <div class="w-100"></div>
+
+            <mat-form-field class="col-md-4 input-padding-right-25">
+                <mat-label>Posortuj po</mat-label>
+                <mat-select [(ngModel)]="genreFilter.orderBy">
+                    <mat-option value="nameAsc">Nazwie (A-Z)</mat-option>
+                    <mat-option value="nameDesc">Nazwie (Z-A)</mat-option>
+                    <mat-option value="descriptionAsc">Opisie (A-Z)</mat-option>
+                    <mat-option value="descriptionDesc">Opisie (Z-A)</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <mat-action-row>
+            <button mat-raised-button color="accent" (click)="onApplyFilters($event)">Zatwierdź</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+</div>
+
+<div class="col-md-12 pb-3">
+    <ng-container *ngIf="!isLoading">
+        <table mat-table [dataSource]="genres.genreList" class="mat-elevation-z8" multiTemplateDataRows>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+                <td mat-cell *matCellDef="let genre"> {{genre.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef>Opis</th>
+                <td mat-cell *matCellDef="let genre"> {{genre.description}} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef >
+                    <div class="clearfix">
+                        <button mat-mini-fab routerLink="/admin/genre/add" class="green-background float-right" >
+                        <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let genre" class="clearfix">
+                    <div class="float-right">
+                        <button mat-mini-fab color="warn" (click)="openDeleteDialog(genre.id)">
+                        <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                    <div class="float-right mr-2">
+                        <button mat-mini-fab routerLink="/admin/genre/edit/{{genre.id}}" color="primary">
+                        <mat-icon>edit</mat-icon>
+                        </button>
+                    </div>
+                </td>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+                </ng-container>
+        </table>
+    </ng-container>
+</div>
+
+<div>
+    <mat-paginator [length]="genres.allElements" [pageSize]="genreFilter.pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[5,10,15,20]" showFirstLastButtons (page)="changePage($event)"></mat-paginator>
+</div>
